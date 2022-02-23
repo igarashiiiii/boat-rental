@@ -1,7 +1,7 @@
 <template>
   <v-container id="auth" cols="12" sm="8" md="8" pa-10>
     <v-spacer pt-4></v-spacer>
-    <div v-show="!state">
+    <div v-show="!isLoggedIn">
       <v-row align="center">
         <v-col>
           <v-card class="mx-auto justify-center" max-width="344" >

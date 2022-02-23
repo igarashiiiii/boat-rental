@@ -31,6 +31,43 @@
             <input type="text" @change="changeLength" :value="updateWidth" />m
           </td>
         </tr>
+        <!-- ■■■■■■■■項目追加■■■■■■■■ -->
+        <tr>
+          <td>時間：</td>
+          <td>
+            <textarea type="text" @change="changeTime" :value="updateTime" />
+          </td>
+        </tr>
+
+        <tr>
+          <td>船長料金：</td>
+          <td>
+            <input
+              type="text"
+              @change="changeCaptainFee"
+              :value="updateCaptainFee"
+            />
+          </td>
+        </tr>
+
+        <tr>
+          <td>集合場所：</td>
+          <td>
+            <textarea type="text" @change="changePlace" :value="updatePlace" />
+          </td>
+        </tr>
+
+        <tr>
+          <td>注意事項：</td>
+          <td>
+            <textarea
+              type="text"
+              @change="changeCaution"
+              :value="updateCaution"
+            />
+          </td>
+        </tr>
+        <!-- ■■■■■■■■項目追加■■■■■■■■ -->
       </tbody>
     </v-simple-table>
     <v-img :src="pictureUrl" alt="" id="myimg"></v-img>
@@ -88,6 +125,13 @@ export default {
       updateLength: "",
       updateWidth: "",
       updateItems: [],
+      //  ■■■■■■■■項目追加■■■■■■■■
+      updateCaptainFee: "",
+      updateTime: "",
+      updatePlace: "",
+      updateCaution: "",
+      updateExplain: "",
+      //  ■■■■■■■■項目追加■■■■■■■■
       userId: "",
       everyBoatId: [],
       pictureId: "",
@@ -123,6 +167,13 @@ export default {
       this.updateBoatCapacity = this.updateItems[0].capacity;
       this.updateLength = this.updateItems[0].boatLength;
       this.updateWidth = this.updateItems[0].width;
+      //  ■■■■■■■■項目追加■■■■■■■■
+      this.updateCaptainFee = this.updateItems[0].captainFee;
+      this.updateTime = this.updateItems[0].time;
+      this.updateplace = this.updateItems[0].place;
+      this.updateCaution = this.updateItems[0].caution;
+      this.updateExplain = this.updateItems[0].explain;
+      //  ■■■■■■■■項目追加■■■■■■■■
       console.log("register:created:Boat情報を読み込みました");
     } else {
       this.exist = false;
@@ -164,12 +215,25 @@ export default {
     changeWith(e) {
       this.updateWith = e.target.value;
     },
+    //  ■■■■■■■■項目追加■■■■■■■■
+    changeCaptainFee(e) {
+      this.updateWith = e.target.value;
+    },
+    changeTime(e) {
+      this.updateWith = e.target.value;
+    },
+    changePlace(e) {
+      this.updateWith = e.target.value;
+    },
+    changeCaution(e) {
+      this.updateWith = e.target.value;
+    },
+    changeExplain(e) {
+      this.updateWith = e.target.value;
+    },
 
-    //when update button is clicked
+    //when update or draft button is clicked
     async updateImage() {
-      console.log("■■■■■■■■■■■■■■■■■■■■");
-      console.log("called updateImage");
-      console.log("■■■■■■■■■■■■■■■■■■■■");
       let imageUrl = "";
       const uploadStorage = ref(
         storage,
@@ -190,6 +254,8 @@ export default {
       });
       return imageUrl;
     },
+
+    //when update button is clicked
     async update() {
       if (this.pictureFile.length !== null) {
         const newImageUrl = await this.updateImage();
@@ -203,6 +269,11 @@ export default {
             capacity: this.updateBoatCapacity,
             boatLength: this.updateLength,
             width: this.updateWidth,
+            captainFee: this.updateCaptainFee,
+            time: this.updateTime,
+            place: this.updatePlace,
+            caution: this.updateCaution,
+            explain: this.updateExplain,
             boatId: this.$store.getters.boatId,
             userId: this.$store.getters.userId,
             textStatus: true,
@@ -214,27 +285,14 @@ export default {
         console.log("register:情報更新失敗:" + error);
       }
     },
+
     //when draft button is clicked
     async draft() {
       //Picture Upload
-      const uploadStorage = ref(
-        storage,
-        "pictures/" + String(this.$store.getters.boatId) + ".jpg"
-      );
-      await uploadBytes(uploadStorage, this.pictureFile)
-        .then(() => {
-          console.log("register:画像のUpload成功");
-          this.pictureUrl = uploadStorage;
-        })
-        .catch((error) => {
-          console.log("register:画像のUpload失敗:" + error);
-        });
-
-      getDownloadURL(
-        ref(storage, "pictures/" + String(this.$store.getters.boatId) + ".jpg")
-      ).then((url) => {
-        this.pictureUrl = url;
-      });
+      if (this.pictureFile.length !== null) {
+        const newImageUrl = await this.updateImage();
+        this.pictureUrl = newImageUrl;
+      }
 
       //preserve information as draft
       try {
@@ -243,10 +301,15 @@ export default {
           capacity: this.updateBoatCapacity,
           boatLength: this.updateLength,
           width: this.updateWidth,
+          captainFee: this.updateCaptainFee,
+          time: this.updateTime,
+          place: this.updatePlace,
+          caution: this.updateCaution,
+          explain: this.updateExplain,
           boatId: this.$store.getters.boatId,
           userId: this.$store.getters.userId,
           textStatus: false,
-          pictureId: this.pictureUrl,
+          pictureId: String(this.pictureUrl),
         });
         console.log("register:情報の下書き成功");
       } catch (error) {

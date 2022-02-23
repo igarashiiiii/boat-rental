@@ -14,13 +14,13 @@
         <v-divider></v-divider>
         <v-list-item-content dense nav>
           <v-list-item-title>
-            <button @click="signOut" class="ml-5">ログアウト</button>
+            <button v-show="!isLoggedIn" @click="signOut" class="ml-5">ログアウト</button>
             </v-list-item-title>
         </v-list-item-content>
         <v-list-item-content dense nav>
           <v-list-item-title>
             <v-col class="ml-2">
-              問い合わせ
+              問い合わせ(未実装)
             </v-col>
           </v-list-item-title>
         </v-list-item-content>
@@ -38,7 +38,7 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
         <v-btn class="pa-2 ml-auto"><router-link to="/register">ボート登録</router-link></v-btn>
-        <v-btn v-if="!isLoggedIn" @click="push" class="pa-2 ml-auto">ログイン</v-btn>
+        <v-btn v-show="!isLoggedIn" @click="push" class="pa-2 ml-auto">ログイン</v-btn>
     </v-app-bar>
   </div>
 </template>

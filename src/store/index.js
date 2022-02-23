@@ -135,6 +135,11 @@ export default new Vuex.Store({
                     width: "",
                     userId: this.state.userId,
                     textStatus: false,
+                    captainFee: "",
+                    time: "",
+                    place: "",
+                    caution: "",
+                    explain:"",
                     boatId: id,
                     pictureId: "https://firebasestorage.googleapis.com/v0/b/boat-rental-dfd96.appspot.com/o/pictures%2FsuLVgL4RFzYEVYg0Re6kfsxpiz83.jpg?alt=media&token=0aa423d6-4ae2-4c38-81d1-bbc42485c969"
                 });

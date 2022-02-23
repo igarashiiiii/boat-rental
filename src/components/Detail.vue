@@ -19,15 +19,15 @@
     <v-container>
       <v-row>
         <v-col sm="6">
-          <v-img height="250" src="../assets/6.jpg" ></v-img>
+          <v-img height="250" :src="pictureUrl" ></v-img>
         </v-col>
         <v-col sm="6">
           <div  v-for="i,index in items" :key="index">
             <div>船名:{{i.boatName}}</div>
-            <div>料金：</div>
+            <div>レンタル料金：</div>
             <div>船長料金：</div>
             <div>定員：{{i.capacity}}人</div>
-            <div>全長：{{i.length}}m</div>
+            <div>全長：{{i.boatLength}}m</div>
             <div>全幅：{{i.width}}m</div>
           </div>
         </v-col>
@@ -37,7 +37,6 @@
             <li>注意事項</li>
             <li>集合場所</li>
             <li>時間</li>
-            <li>送迎の有無</li>
             <li>船長のHire Fee</li>
         </ul>
       </v-row>
@@ -46,7 +45,7 @@
     <v-container>
       <v-row class="mx-10 py-12">
           <v-btn class="mx-auto">
-            申し込みをする→メール画面に遷移
+            申し込みをする→メール画面に遷移(未実装)
           </v-btn>
         </v-row>
     </v-container>
@@ -73,6 +72,10 @@
   appId: "1:750963958567:web:8465babc5ac3620df6ff02"
   };
 
+//Picture
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
+const storage = getStorage();
+
   // Initialize Firebase
   initializeApp(firebaseConfig);
   const db = getFirestore();
@@ -93,6 +96,18 @@ async created(){
     const docRef = doc(db,"boatInformation",this.id);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()){
+      //Get Picture
+      await getDownloadURL(
+        ref(storage, "pictures/" + String(this.$store.getters.boatId) + ".jpg")
+      )
+        .then((url) => {
+          console.log("Register:created:画像を読み込みました:" + url);
+          this.pictureUrl = url;
+        })
+        .catch((error) => {
+          console.log("Register:created:画像が読み込めません:" + error);
+          console.log("Register:created:画像が読み込めません:" + error);
+        });
       this.exist = false;
       this.items = [];
       this.items.push(docSnap.data())
