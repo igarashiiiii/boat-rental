@@ -38,15 +38,14 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
         <v-btn class="pa-2 ml-auto"><router-link to="/register">ボート登録</router-link></v-btn>
-        <v-btn  @click="push" class="pa-2 ml-auto">ログイン</v-btn>
+        <v-btn v-if="!isLoggedIn" @click="push" class="pa-2 ml-auto">ログイン</v-btn>
     </v-app-bar>
   </div>
 </template>
 <script>
 
-import {
-  getAuth,
-} from "firebase/auth";
+import { getAuth,} from "firebase/auth";
+import { mapGetters } from 'vuex'
 
 export default {
   name:"Head",
@@ -69,6 +68,11 @@ export default {
     }else{
       this.buttonShow = false
     }
+  },
+  computed: {
+    ...mapGetters([
+      'isLoggedIn',
+    ])
   },
   methods:{
     push(){

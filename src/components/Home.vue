@@ -5,7 +5,6 @@
         <v-flex>
           <v-row>
             <v-col>
-              <v-simple-table>
                 <v-row>
                   <div
                     v-for="(i, index) in items"
@@ -13,8 +12,13 @@
                     @click="push(i.boatId)"
                     class="mx-auto"
                   >
-                    <v-card max-width="350" color="pink">
-                      <v-img :src="i.pictureId" alt="" id="myimg" height="350"></v-img>
+                    <v-card max-width="300" color="pink">
+                      <v-img
+                        :src="i.pictureId"
+                        alt=""
+                        id="myimg"
+                        height="350"
+                      ></v-img>
                       <!-- <v-img height="350" src="../assets/6.jpg"></v-img> -->
                       <v-card-title>船名:{{ i.boatName }}</v-card-title>
                       <!-- 口コミ評価 実装したい -->
@@ -36,13 +40,12 @@
                         <div>料金：</div>
                         <div>船長料金：</div>
                         <div>定員：{{ i.capacity }}人</div>
-                        <div>全長：{{ i.length }}m</div>
+                        <div>全長：{{ i.boatLength }}m</div>
                         <div>全幅：{{ i.width }}m</div>
                       </v-card-text>
                     </v-card>
                   </div>
                 </v-row>
-              </v-simple-table>
             </v-col>
           </v-row>
         </v-flex>

@@ -2,11 +2,11 @@
   <v-container id="Register" class="py-10">
     <h4>貸出すボートを登録する</h4>
     <v-simple-table>
-      <tbody v-for="(i, index) in items" :key="index">
+      <tbody>
         <tr>
           <td>船名：</td>
           <td>
-            <input type="text" v-model="name" v-name="i.boatName" />
+            <input type="text" @change="changeName" :value="updateName" />
           </td>
         </tr>
         <tr>
@@ -14,19 +14,22 @@
           <td>
             <input
               type="nummber"
-              v-model="boatCapacity"
-              v-capacity="i.capacity"
-            />
-            人
+              @change="changeCapacity"
+              :value="updateBoatCapacity"
+            />人
           </td>
         </tr>
         <tr>
           <td>全長：</td>
-          <td><input type="text" v-model="length" v-length="i.length" />m</td>
+          <td>
+            <input type="text" @change="changeLength" :value="updateLength" />m
+          </td>
         </tr>
         <tr>
           <td>全幅：</td>
-          <td><input type="text" v-model="width" v-width="i.width" />m</td>
+          <td>
+            <input type="text" @change="changeLength" :value="updateWidth" />m
+          </td>
         </tr>
       </tbody>
     </v-simple-table>
@@ -80,40 +83,26 @@ export default {
     return {
       //boat Information
       exist: false,
-      name: "",
-      boatCapacity: "",
-      length: "",
-      width: "",
-      boatId: "",
-      items: [],
+      updateName: "",
+      updateBoatCapacity: "",
+      updateLength: "",
+      updateWidth: "",
+      updateItems: [],
       userId: "",
       everyBoatId: [],
       pictureId: "",
       //picture
       pictureUrl: "",
-      pictureFile: [],
+      pictureFile: null,
     };
   },
-  //if user has already registered your boat Infromation
-  //show up the information
-  //otherwise show up the fillin format
-  //pictureId = boatId
+
   async created() {
     const docRef = doc(db, "boatInformation", this.$store.getters.boatId);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-      //Get the boat Information
-      this.items = [];
-      this.items.push(docSnap.data());
-      this.name = this.items.boatName;
-      this.boatCapacity = this.items.capacity;
-      this.length = this.items.length;
-      this.width = this.items.width;
-      console.log("register:created:Boat情報を読み込みました");
-      console.log(docSnap.data());
-
       //Get Picture
-      getDownloadURL(
+      await getDownloadURL(
         ref(storage, "pictures/" + String(this.$store.getters.boatId) + ".jpg")
       )
         .then((url) => {
@@ -122,48 +111,107 @@ export default {
         })
         .catch((error) => {
           console.log("Register:created:画像が読み込めません:" + error);
+          console.log("Register:created:画像が読み込めません:" + error);
         });
+
+      //Get the boat Information
+      this.tmpItems = [];
+      this.tmpItems.push(docSnap.data());
+      this.updateItems = [];
+      this.updateItems.push(docSnap.data());
+      this.updateName = this.updateItems[0].boatName;
+      this.updateBoatCapacity = this.updateItems[0].capacity;
+      this.updateLength = this.updateItems[0].boatLength;
+      this.updateWidth = this.updateItems[0].width;
+      console.log("register:created:Boat情報を読み込みました");
     } else {
       this.exist = false;
       console.log("Register:created:Not exixt");
     }
   },
 
+  beforeMount() {
+    this.$nextTick(async function () {
+      console.log("beforeMount");
+    });
+  },
+  mounted() {
+    this.$nextTick(async function () {
+      console.log("mounted");
+    });
+  },
+  beforeupdate() {
+    this.$nextTick(async function () {
+      console.log("beforeupdate");
+    });
+  },
+  updated() {
+    this.$nextTick(async function () {
+      console.log("register:updated");
+    });
+  },
   methods: {
+    //changed information
+    changeName(e) {
+      this.updateName = e.target.value;
+    },
+    changeCapacity(e) {
+      this.updateBoatCapacity = e.target.value;
+    },
+    changeLength(e) {
+      this.updateLength = e.target.value;
+    },
+    changeWith(e) {
+      this.updateWith = e.target.value;
+    },
+
     //when update button is clicked
+    async updateImage() {
+      console.log("■■■■■■■■■■■■■■■■■■■■");
+      console.log("called updateImage");
+      console.log("■■■■■■■■■■■■■■■■■■■■");
+      let imageUrl = "";
+      const uploadStorage = ref(
+        storage,
+        "pictures/" + String(this.$store.getters.boatId) + ".jpg"
+      );
+      await uploadBytes(uploadStorage, this.pictureFile)
+        .then(() => {
+          console.log("register:画像のUpload成功");
+          this.pictureUrl = uploadStorage;
+        })
+        .catch((error) => {
+          console.log("register:画像のUpload失敗:" + error);
+        });
+      await getDownloadURL(
+        ref(storage, "pictures/" + String(this.$store.getters.boatId) + ".jpg")
+      ).then((url) => {
+        imageUrl = url;
+      });
+      return imageUrl;
+    },
     async update() {
+      if (this.pictureFile.length !== null) {
+        const newImageUrl = await this.updateImage();
+        this.pictureUrl = newImageUrl;
+      }
       try {
-        //Picture Upload
-        const uploadStorage = ref(
-          storage,
-          "pictures/" + String(this.$store.getters.boatId) + ".jpg"
-        );
-        await uploadBytes(uploadStorage, this.pictureFile)
-          .then(() => {
-            console.log("register:画像のUpload成功");
-            this.pictureUrl = uploadStorage;
-          })
-          .catch((error) => {
-            console.log("register:画像のUpload失敗:" + error);
-          });
-        //update Information
         await setDoc(
           doc(db, "boatInformation", String(this.$store.getters.boatId)),
           {
-            boatName: this.name,
-            capacity: this.boatCapacity,
-            length: this.length,
-            width: this.width,
+            boatName: this.updateName,
+            capacity: this.updateBoatCapacity,
+            boatLength: this.updateLength,
+            width: this.updateWidth,
             boatId: this.$store.getters.boatId,
             userId: this.$store.getters.userId,
             textStatus: true,
-            pictureId: this.pictureUrl,
+            pictureId: String(this.pictureUrl),
           }
         );
         console.log("register:情報更新成功");
       } catch (error) {
         console.log("register:情報更新失敗:" + error);
-        console.log(this.pictureUrl);
       }
     },
     //when draft button is clicked
@@ -181,13 +229,20 @@ export default {
         .catch((error) => {
           console.log("register:画像のUpload失敗:" + error);
         });
+
+      getDownloadURL(
+        ref(storage, "pictures/" + String(this.$store.getters.boatId) + ".jpg")
+      ).then((url) => {
+        this.pictureUrl = url;
+      });
+
       //preserve information as draft
       try {
         await setDoc(doc(db, "boatInformation", this.$store.getters.boatId), {
-          boatName: this.name,
-          capacity: this.boatCapacity,
-          length: this.length,
-          width: this.width,
+          boatName: this.updateName,
+          capacity: this.updateBoatCapacity,
+          boatLength: this.updateLength,
+          width: this.updateWidth,
           boatId: this.$store.getters.boatId,
           userId: this.$store.getters.userId,
           textStatus: false,

@@ -29,7 +29,7 @@
         </v-col>
       </v-row>
     </div>
-    <div v-show="state">
+    <div v-show="isLoggedIn">
       ログイン完了しました
     </div>
   </v-container>
@@ -50,6 +50,10 @@ initializeApp(firebaseConfig);
 //Boat information
 import { initializeApp } from "firebase/app";
 
+//authentification
+const auth = getAuth();
+import { mapGetters } from 'vuex';
+
 import {
   getAuth,
   signOut,
@@ -59,23 +63,30 @@ export default {
   name: "Auth",
   data() {
     return {
-      email: "igahaya5@gamil.com",
+      email: "@gamil.com",
       password: "123456789",
-      state: this.$store.getters.userState,
+      state: "",
       boatId: "",
       everyBoatId: [],
     };
   },
+  computed:{
+    ...mapGetters([
+      'isLoggedin'
+    ])
+  },
+
   created() {
     //ログイン状態を確認
-    const auth = getAuth();
     this.$store.dispatch("userConfirm", auth);
+    this.state = this.$store.getters.userState
+    console.log("Auth:created:"+this.state)
   },
+
   methods: {
     //signUp ユーザーID = boatId
     async signUp() {
-      await this.makeId();
-      const auth = getAuth();
+      // await this.makeId();
       await this.$store.dispatch("userSignup", {
         authInfo: auth,
         emailInfo: this.email,
@@ -83,23 +94,19 @@ export default {
       });
       //ボート情報の登録(boatId = userId)
       this.$store.dispatch("createBoatId", this.$store.getters.userId);
+      this.state = this.$store.getters.userState
     },
+    //signIn
     signIn() {
-      const auth = getAuth();
       this.$store.dispatch("userSignin", {
         authInfo: auth,
         emailInfo: this.email,
         passwordInfo: this.password,
       });
-      if(this.$store.getters.userState){
-        this.state = true;
-      }else{
-        this.state = false;
-      }
-      
+      this.state = this.$store.getters.userState
     },
+    //signOut
     signOut() {
-      const auth = getAuth();
       signOut(auth)
         .then(() => {
           console.log(auth);
