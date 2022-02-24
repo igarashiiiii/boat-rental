@@ -14,7 +14,7 @@
         <v-divider></v-divider>
         <v-list-item-content dense nav>
           <v-list-item-title>
-            <button v-show="!isLoggedIn" @click="signOut" class="ml-5">ログアウト</button>
+            <button v-show="isLoggedIn" @click="signOut" class="ml-5">ログアウト</button>
             </v-list-item-title>
         </v-list-item-content>
         <v-list-item-content dense nav>

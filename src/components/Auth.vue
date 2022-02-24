@@ -72,10 +72,9 @@ export default {
   },
   computed:{
     ...mapGetters([
-      'isLoggedin'
+      'isLoggedIn'
     ])
   },
-
   created() {
     //ログイン状態を確認
     this.$store.dispatch("userConfirm", auth);

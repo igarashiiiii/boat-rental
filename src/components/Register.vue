@@ -28,14 +28,28 @@
         <tr>
           <td>全幅：</td>
           <td>
-            <input type="text" @change="changeLength" :value="updateWidth" />m
+            <input type="text" @change="changeWidth" :value="updateWidth" />m
           </td>
         </tr>
         <!-- ■■■■■■■■項目追加■■■■■■■■ -->
         <tr>
-          <td>時間：</td>
+          <td>出航時刻：</td>
           <td>
-            <textarea type="text" @change="changeTime" :value="updateTime" />
+            <input
+              type="text"
+              @change="changeDepartureTime"
+              :value="updateDepartureTime"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>寄港時刻：</td>
+          <td>
+            <input
+              type="text"
+              @change="changeArrivalTime"
+              :value="updateArrivalTime"
+            />
           </td>
         </tr>
 
@@ -127,10 +141,10 @@ export default {
       updateItems: [],
       //  ■■■■■■■■項目追加■■■■■■■■
       updateCaptainFee: "",
-      updateTime: "",
+      updateDepartureTime: "",
+      updateArrivalTime: "",
       updatePlace: "",
       updateCaution: "",
-      updateExplain: "",
       //  ■■■■■■■■項目追加■■■■■■■■
       userId: "",
       everyBoatId: [],
@@ -169,38 +183,39 @@ export default {
       this.updateWidth = this.updateItems[0].width;
       //  ■■■■■■■■項目追加■■■■■■■■
       this.updateCaptainFee = this.updateItems[0].captainFee;
-      this.updateTime = this.updateItems[0].time;
-      this.updateplace = this.updateItems[0].place;
+      this.updateDepartureTime = this.updateItems[0].departureTime;
+      this.updateArrivalTime = this.updateItems[0].arrivalTime;
+      this.updatePlace = this.updateItems[0].place;
       this.updateCaution = this.updateItems[0].caution;
-      this.updateExplain = this.updateItems[0].explain;
       //  ■■■■■■■■項目追加■■■■■■■■
       console.log("register:created:Boat情報を読み込みました");
+      console.log("register:created:time" + this.updateArrivalTime);
     } else {
       this.exist = false;
       console.log("Register:created:Not exixt");
     }
   },
 
-  beforeMount() {
-    this.$nextTick(async function () {
-      console.log("beforeMount");
-    });
-  },
-  mounted() {
-    this.$nextTick(async function () {
-      console.log("mounted");
-    });
-  },
-  beforeupdate() {
-    this.$nextTick(async function () {
-      console.log("beforeupdate");
-    });
-  },
-  updated() {
-    this.$nextTick(async function () {
-      console.log("register:updated");
-    });
-  },
+  // beforeMount() {
+  //   this.$nextTick(async function () {
+  //     console.log("beforeMount");
+  //   });
+  // },
+  // mounted() {
+  //   this.$nextTick(async function () {
+  //     console.log("mounted");
+  //   });
+  // },
+  // beforeupdate() {
+  //   this.$nextTick(async function () {
+  //     console.log("beforeupdate");
+  //   });
+  // },
+  // updated() {
+  //   this.$nextTick(async function () {
+  //     console.log("register:updated");
+  //   });
+  // },
   methods: {
     //changed information
     changeName(e) {
@@ -212,24 +227,26 @@ export default {
     changeLength(e) {
       this.updateLength = e.target.value;
     },
-    changeWith(e) {
-      this.updateWith = e.target.value;
+    changeWidth(e) {
+      this.updateWidth = e.target.value;
     },
     //  ■■■■■■■■項目追加■■■■■■■■
     changeCaptainFee(e) {
-      this.updateWith = e.target.value;
+      this.updateCaptainFee = e.target.value;
     },
-    changeTime(e) {
-      this.updateWith = e.target.value;
+    changeDepartureTime(e) {
+      this.updateDepartureTime = e.target.value;
+      console.log("changeTime:" + this.updateDepartureTime);
+    },
+    changeArrivalTime(e) {
+      this.updateArrivalTime = e.target.value;
+      console.log("changeTime:" + this.updateArrivalTime);
     },
     changePlace(e) {
-      this.updateWith = e.target.value;
+      this.updatePlace = e.target.value;
     },
     changeCaution(e) {
-      this.updateWith = e.target.value;
-    },
-    changeExplain(e) {
-      this.updateWith = e.target.value;
+      this.updateCaution = e.target.value;
     },
 
     //when update or draft button is clicked
@@ -270,10 +287,10 @@ export default {
             boatLength: this.updateLength,
             width: this.updateWidth,
             captainFee: this.updateCaptainFee,
-            time: this.updateTime,
+            departureTime: this.updateDepartureTime,
+            arrivalTime: this.updateArrivalTime,
             place: this.updatePlace,
             caution: this.updateCaution,
-            explain: this.updateExplain,
             boatId: this.$store.getters.boatId,
             userId: this.$store.getters.userId,
             textStatus: true,
@@ -281,6 +298,9 @@ export default {
           }
         );
         console.log("register:情報更新成功");
+        console.log(
+          "register:uodate:updateArrivalTime" + this.updateArrivalTime
+        );
       } catch (error) {
         console.log("register:情報更新失敗:" + error);
       }
@@ -302,10 +322,10 @@ export default {
           boatLength: this.updateLength,
           width: this.updateWidth,
           captainFee: this.updateCaptainFee,
-          time: this.updateTime,
+          departureTime: this.updateDepartureTime,
+          arrivalTime: this.updateArrivalTime,
           place: this.updatePlace,
           caution: this.updateCaution,
-          explain: this.updateExplain,
           boatId: this.$store.getters.boatId,
           userId: this.$store.getters.userId,
           textStatus: false,

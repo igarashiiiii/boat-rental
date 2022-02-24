@@ -68,9 +68,9 @@ export default new Vuex.Store({
         async userSignup({ commit }, { authInfo, emailInfo, passwordInfo }) {
             await createUserWithEmailAndPassword(authInfo, emailInfo, passwordInfo)
                 .then((userCredential) => {
-                  commit("userSignup", userCredential.user.uid)
-                  console.log("vuex:Signup:" + userCredential.user.uid);
-                  console.log("vuex signUp：UserIdの登録に成功しました");
+                    commit("userSignup", userCredential.user.uid)
+                    console.log("vuex:Signup:" + userCredential.user.uid);
+                    console.log("vuex signUp：UserIdの登録に成功しました");
                 })
                 .catch((error) => {
                     console.log(error);
@@ -79,20 +79,22 @@ export default new Vuex.Store({
                 });
         },
         //サインイン
-        userSignin({ commit }, { authInfo, emailInfo, passwordInfo }) {
-            signInWithEmailAndPassword(authInfo, emailInfo, passwordInfo)
+        async userSignin({ commit }, { authInfo, emailInfo, passwordInfo }) {
+            // state.loggingIn = true
+            await signInWithEmailAndPassword(authInfo, emailInfo, passwordInfo)
                 .then((userCredential) => {
-                  const user = userCredential.user;
-                  commit("userSignin", userCredential.user.uid)
-                  //ボート情報を読み込むためにID付与(boatId = userId)
-                  commit("createBoatId", userCredential.user.uid)
-                  console.log("vuex:userSignin:サインイン成功");
-                  console.log("vuex:userSignin:userId,boatId:" + user.uid);
+                    const user = userCredential.user;
+                    commit("userSignin", userCredential.user.uid)
+                        //ボート情報を読み込むためにID付与(boatId = userId)
+                    commit("createBoatId", userCredential.user.uid)
+                    console.log("vuex:userSignin:サインイン成功");
+                    console.log("vuex:userSignin:userId,boatId:" + user.uid);
                 })
                 .catch((error) => {
-                  console.log("vuex:userSignin:サインイン失敗:" + error);
+                    console.log("vuex:userSignin:サインイン失敗:" + error);
 
                 });
+            // state.loggingIn = false
         },
         //ログイン状態を確認
         async userConfirm({ commit }, auth) {
@@ -103,22 +105,23 @@ export default new Vuex.Store({
                     //ボート情報を読み込むためにID付与(boatId = userId)
                     commit("createBoatId", user.uid)
                     console.log("vuex:userConfirm:ログイン中"),
-                    console.log("vuex:userConfirm:ユーザーID:" + user.uid),
-                    console.log("vuex:ログインstate:" + this.state.userId)
+                        console.log("vuex:userConfirm:ユーザーID:" + user.uid),
+                        console.log("vuex:ログインstate:" + this.state.userId)
                 } else {
                     //userIdをnullにする
                     commit("userId", null);
                     console.log("vuex:userConfirm:ログアウトしました")
                     console.log("vuex:ログインstate:" + this.state.userId)
                 }
+
             });
         },
         //ログアウト
         userLogout({ commit }, auth) {
-          signOut(auth).then(() => {
-              //userIdをnullにする
-              commit("userId", null);
-              console.log("vuex:userLogout:ログアウト成功");
+            signOut(auth).then(() => {
+                //userIdをnullにする
+                commit("userId", null);
+                console.log("vuex:userLogout:ログアウト成功");
             }).catch((error) => {
                 console.log("vuex:userLogout:ログアウト失敗" + error);
             });
@@ -136,10 +139,10 @@ export default new Vuex.Store({
                     userId: this.state.userId,
                     textStatus: false,
                     captainFee: "",
-                    time: "",
+                    departureTime: "",
+                    arrivalTime:"",
                     place: "",
                     caution: "",
-                    explain:"",
                     boatId: id,
                     pictureId: "https://firebasestorage.googleapis.com/v0/b/boat-rental-dfd96.appspot.com/o/pictures%2FsuLVgL4RFzYEVYg0Re6kfsxpiz83.jpg?alt=media&token=0aa423d6-4ae2-4c38-81d1-bbc42485c969"
                 });

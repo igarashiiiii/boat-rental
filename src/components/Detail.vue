@@ -45,7 +45,7 @@
     <v-container>
       <v-row class="mx-10 py-12">
           <v-btn class="mx-auto">
-            申し込みをする→メール画面に遷移(未実装)
+            <a :href="'mailto:'+ userEmail">メールで申し込みをする</a>
           </v-btn>
         </v-row>
     </v-container>
@@ -61,7 +61,7 @@
         doc,
         getDoc
   } from "firebase/firestore";
-
+  import { mapGetters } from 'vuex';
 // Your web app's Firebase configuration
   const firebaseConfig = {
   apiKey: "AIzaSyCysepqEQcNxwodpX5g03bbJIyCskAhc8c",
@@ -82,6 +82,9 @@ const storage = getStorage();
 
 export default {
   name: 'Detail',
+  computed:{
+    ...mapGetters(['userEmail'])
+  },
   data(){
     return{
       items:[],
