@@ -1,44 +1,43 @@
 <template>
   <div id="Detail">
-    <!-- パソコン画面 -->
-          <!-- 口コミ評価 実装したい -->
-            <!--<v-row class="my-5">
-            <v-rating
-              :value="4.5"
-              color="amber"
-              dense
-              half-increments
-              readonly
-              size="14"
-              ></v-rating>
-              <div class="grey--text my-5">
-                4.5 (413)
-              </div>
-            </v-row> -->
-    <hr>
-    <v-container>
+    <v-container v-for="i,index in items" :key="index">
+      <h2>{{i.boatName}}</h2>
       <v-row>
-        <v-col sm="6">
+        <v-col cols=12 xs="12" sm="6">
           <v-img height="250" :src="pictureUrl" ></v-img>
         </v-col>
-        <v-col sm="6">
-          <div  v-for="i,index in items" :key="index">
-            <div>船名:{{i.boatName}}</div>
-            <div>レンタル料金：</div>
-            <div>船長料金：</div>
-            <div>定員：{{i.capacity}}人</div>
-            <div>全長：{{i.boatLength}}m</div>
-            <div>全幅：{{i.width}}m</div>
-          </div>
+      <v-col cols=12 xs="12" sm="6">
+        <v-simple-table>
+          <tbody>
+            <tr>
+              <td>レンタル料金：</td><td>{{i.rentalFee}}円/1日</td>
+            </tr>
+            <tr>
+              <td>船長料金：</td><td>{{i.captainFee}}円/1日</td>
+            </tr>
+            <tr>
+              <td>全長：</td><td>{{i.boatLength}}m</td>
+            </tr>
+            <tr>
+              <td>全幅：</td><td>{{i.width}}m</td>
+            </tr>
+            <tr>
+              <td>出港時間:</td><td>{{i.departureTime}}</td>
+            </tr>
+            <tr>
+              <td>寄港時間:</td><td>{{i.arrivalTime}}</td>
+            </tr>
+          </tbody>
+          </v-simple-table>
         </v-col>
       </v-row>
       <v-row class="py-12">
-        <ul>
-            <li>注意事項</li>
-            <li>集合場所</li>
-            <li>時間</li>
-            <li>船長のHire Fee</li>
-        </ul>
+        <v-col cols=12 xs="12">
+          <p>集合場所</p><p>{{i.place}}</p>
+        </v-col>
+        <v-col cols=12 xs="12">
+          <p>追記事項</p><p>{{i.caution}}</p>
+        </v-col>
       </v-row>
     </v-container>
     <v-spacer></v-spacer>
@@ -92,7 +91,8 @@ export default {
       name:"",
       number:"",
       length:"",
-      width:""
+      width:"",
+      pictureUrl:""
     };
   },
 async created(){

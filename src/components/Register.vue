@@ -1,94 +1,134 @@
 <template>
-  <v-container id="Register" class="py-10">
-    <h4>貸出すボートを登録する</h4>
-    <v-simple-table>
-      <tbody>
-        <tr>
-          <td>船名：</td>
-          <td>
-            <input type="text" @change="changeName" :value="updateName" />
-          </td>
-        </tr>
-        <tr>
-          <td>定員：</td>
-          <td>
-            <input
-              type="nummber"
-              @change="changeCapacity"
-              :value="updateBoatCapacity"
-            />人
-          </td>
-        </tr>
-        <tr>
-          <td>全長：</td>
-          <td>
-            <input type="text" @change="changeLength" :value="updateLength" />m
-          </td>
-        </tr>
-        <tr>
-          <td>全幅：</td>
-          <td>
-            <input type="text" @change="changeWidth" :value="updateWidth" />m
-          </td>
-        </tr>
-        <!-- ■■■■■■■■項目追加■■■■■■■■ -->
-        <tr>
-          <td>出航時刻：</td>
-          <td>
-            <input
-              type="text"
-              @change="changeDepartureTime"
-              :value="updateDepartureTime"
-            />
-          </td>
-        </tr>
-        <tr>
-          <td>寄港時刻：</td>
-          <td>
-            <input
-              type="text"
-              @change="changeArrivalTime"
-              :value="updateArrivalTime"
-            />
-          </td>
-        </tr>
+  <v-container id="Register" class="py-5">
+    <h2>貸出すボートを登録</h2>
+    <v-row>
+      <v-col cols="12" xs="12" sm="6">
+        <v-img :src="pictureUrl" alt="" id="myimg"></v-img>
+        <v-col class="m-12">
+          <v-file-input type="file" v-model="pictureFile"
+            >画像を登録</v-file-input
+          >
+        </v-col>
+      </v-col>
+      <v-col cols="12" xs="12" sm="6">
+        <v-simple-table>
+          <tbody>
+            <tr>
+              <td>船名：</td>
+              <td>
+                <input type="text" @change="changeName" :value="updateName" />
+              </td>
+            </tr>
+            <tr>
+              <td>定員：</td>
+              <td>
+                <input
+                  type="nummber"
+                  @change="changeCapacity"
+                  :value="updateBoatCapacity"
+                />人
+              </td>
+            </tr>
+            <tr>
+              <td>全長：</td>
+              <td>
+                <input
+                  type="text"
+                  @change="changeLength"
+                  :value="updateLength"
+                />m
+              </td>
+            </tr>
+            <tr>
+              <td>全幅：</td>
+              <td>
+                <input
+                  type="text"
+                  @change="changeWidth"
+                  :value="updateWidth"
+                />m
+              </td>
+            </tr>
 
-        <tr>
-          <td>船長料金：</td>
-          <td>
-            <input
-              type="text"
-              @change="changeCaptainFee"
-              :value="updateCaptainFee"
-            />
-          </td>
-        </tr>
+            <tr>
+              <td>レンタル料金：</td>
+              <td>
+                <input
+                  type="text"
+                  @change="changeRentalFee"
+                  :value="updateRentalFee"
+                />円
+              </td>
+            </tr>
 
-        <tr>
-          <td>集合場所：</td>
-          <td>
-            <textarea type="text" @change="changePlace" :value="updatePlace" />
-          </td>
-        </tr>
+            <tr>
+              <td>船長料金：</td>
+              <td>
+                <input
+                  type="text"
+                  @change="changeCaptainFee"
+                  :value="updateCaptainFee"
+                />円
+              </td>
+            </tr>
+            <tr>
+              <td>出港時刻：</td>
+              <td>
+                <input
+                  type="time"
+                  @change="changeDepartureTime"
+                  :value="updateDepartureTime"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>寄港時刻：</td>
+              <td>
+                <input
+                  type="time"
+                  @change="changeArrivalTime"
+                  :value="updateArrivalTime"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </v-simple-table>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <v-simple-table>
+          <tbody>
+            <tr>
+              <td class="py-5">
+                <v-textarea
+                  label="集合場所"
+                  auto-grow
+                  outlined
+                  name="input-7-4"
+                  @change="changePlace"
+                  :value="updatePlace"
+                />
+              </td>
+            </tr>
 
-        <tr>
-          <td>注意事項：</td>
-          <td>
-            <textarea
-              type="text"
-              @change="changeCaution"
-              :value="updateCaution"
-            />
-          </td>
-        </tr>
-        <!-- ■■■■■■■■項目追加■■■■■■■■ -->
-      </tbody>
-    </v-simple-table>
-    <v-img :src="pictureUrl" alt="" id="myimg"></v-img>
-    <v-col class="m-12" cols="12" sm="6">
-      <v-file-input type="file" v-model="pictureFile"></v-file-input>
-    </v-col>
-    <v-row class="py-10">
+            <tr>
+              <td>
+                <v-textarea
+                  label="追記事項"
+                  auto-grow
+                  outlined
+                  name="input-7-4"
+                  @change="changeCaution"
+                  :value="updateCaution"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </v-simple-table>
+      </v-col>
+    </v-row>
+    <v-row class="py-10" justify="center">
       <v-btn @click="update">公開</v-btn>
       <v-btn @click="draft">下書きとして保存</v-btn>
     </v-row>
@@ -100,9 +140,7 @@
     時間
     繰り返し
     ToDo
-      修正アイコン押すと登録情報を修正できるようになる。その際、既に登録した情報を初期値として表示する
-      最低情報を入力したら登録
-      抜けている項目があったら下書きとして保存。公開はしない -->
+    抜けている項目があったら下書きとして保存。公開はしない -->
 </template>
 
 <script>
@@ -139,15 +177,13 @@ export default {
       updateLength: "",
       updateWidth: "",
       updateItems: [],
-      //  ■■■■■■■■項目追加■■■■■■■■
       updateCaptainFee: "",
+      updateRentalFee: "",
       updateDepartureTime: "",
       updateArrivalTime: "",
       updatePlace: "",
       updateCaution: "",
-      //  ■■■■■■■■項目追加■■■■■■■■
       userId: "",
-      everyBoatId: [],
       pictureId: "",
       //picture
       pictureUrl: "",
@@ -169,7 +205,6 @@ export default {
         })
         .catch((error) => {
           console.log("Register:created:画像が読み込めません:" + error);
-          console.log("Register:created:画像が読み込めません:" + error);
         });
 
       //Get the boat Information
@@ -181,41 +216,19 @@ export default {
       this.updateBoatCapacity = this.updateItems[0].capacity;
       this.updateLength = this.updateItems[0].boatLength;
       this.updateWidth = this.updateItems[0].width;
-      //  ■■■■■■■■項目追加■■■■■■■■
       this.updateCaptainFee = this.updateItems[0].captainFee;
+      this.updateRentalFee = this.updateItems[0].rentalFee;
       this.updateDepartureTime = this.updateItems[0].departureTime;
       this.updateArrivalTime = this.updateItems[0].arrivalTime;
       this.updatePlace = this.updateItems[0].place;
       this.updateCaution = this.updateItems[0].caution;
-      //  ■■■■■■■■項目追加■■■■■■■■
       console.log("register:created:Boat情報を読み込みました");
-      console.log("register:created:time" + this.updateArrivalTime);
     } else {
       this.exist = false;
       console.log("Register:created:Not exixt");
     }
   },
 
-  // beforeMount() {
-  //   this.$nextTick(async function () {
-  //     console.log("beforeMount");
-  //   });
-  // },
-  // mounted() {
-  //   this.$nextTick(async function () {
-  //     console.log("mounted");
-  //   });
-  // },
-  // beforeupdate() {
-  //   this.$nextTick(async function () {
-  //     console.log("beforeupdate");
-  //   });
-  // },
-  // updated() {
-  //   this.$nextTick(async function () {
-  //     console.log("register:updated");
-  //   });
-  // },
   methods: {
     //changed information
     changeName(e) {
@@ -230,20 +243,21 @@ export default {
     changeWidth(e) {
       this.updateWidth = e.target.value;
     },
-    //  ■■■■■■■■項目追加■■■■■■■■
     changeCaptainFee(e) {
       this.updateCaptainFee = e.target.value;
     },
+    changeRentalFee(e) {
+      this.updateRentalFee = e.target.value;
+    },
     changeDepartureTime(e) {
       this.updateDepartureTime = e.target.value;
-      console.log("changeTime:" + this.updateDepartureTime);
     },
     changeArrivalTime(e) {
       this.updateArrivalTime = e.target.value;
-      console.log("changeTime:" + this.updateArrivalTime);
     },
     changePlace(e) {
-      this.updatePlace = e.target.value;
+      this.updatePlace = e.target.internalValue;
+      console.log("changePlace:" + e.target.internalValue);
     },
     changeCaution(e) {
       this.updateCaution = e.target.value;
@@ -274,7 +288,7 @@ export default {
 
     //when update button is clicked
     async update() {
-      if (this.pictureFile.length !== null) {
+      if (this.pictureFile != null) {
         const newImageUrl = await this.updateImage();
         this.pictureUrl = newImageUrl;
       }
@@ -287,6 +301,7 @@ export default {
             boatLength: this.updateLength,
             width: this.updateWidth,
             captainFee: this.updateCaptainFee,
+            rentalFee: this.updateRentalFee,
             departureTime: this.updateDepartureTime,
             arrivalTime: this.updateArrivalTime,
             place: this.updatePlace,
@@ -298,9 +313,6 @@ export default {
           }
         );
         console.log("register:情報更新成功");
-        console.log(
-          "register:uodate:updateArrivalTime" + this.updateArrivalTime
-        );
       } catch (error) {
         console.log("register:情報更新失敗:" + error);
       }
@@ -309,7 +321,7 @@ export default {
     //when draft button is clicked
     async draft() {
       //Picture Upload
-      if (this.pictureFile.length !== null) {
+      if (this.pictureFile != null) {
         const newImageUrl = await this.updateImage();
         this.pictureUrl = newImageUrl;
       }
@@ -322,6 +334,7 @@ export default {
           boatLength: this.updateLength,
           width: this.updateWidth,
           captainFee: this.updateCaptainFee,
+          rentalFee: this.updateRentalFee,
           departureTime: this.updateDepartureTime,
           arrivalTime: this.updateArrivalTime,
           place: this.updatePlace,

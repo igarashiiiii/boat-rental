@@ -12,7 +12,7 @@
                     @click="push(i.boatId)"
                     class="mx-auto"
                   >
-                    <v-card max-width="300" color="pink">
+                    <v-card max-width="300" color="pink" class="my-2">
                       <v-img
                         :src="i.pictureId"
                         alt=""
@@ -37,8 +37,8 @@
                         </v-row> -->
 
                       <v-card-text class="text--primary">
-                        <div>料金：</div>
-                        <div>船長料金：</div>
+                        <div>料金：{{ i.rentalFee }}円/1日</div>
+                        <div>船長料金：{{ i.captainFee }}円/1日</div>
                         <div>定員：{{ i.capacity }}人</div>
                         <div>全長：{{ i.boatLength }}m</div>
                         <div>全幅：{{ i.width }}m</div>
