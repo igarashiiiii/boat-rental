@@ -1,13 +1,14 @@
 <template>
   <v-container id="Register" class="py-5">
-    <h2>貸出すボートを登録</h2>
     <v-row>
       <v-col cols="12" xs="12" sm="6">
         <v-img :src="pictureUrl" alt="" id="myimg" max-height="350"></v-img>
         <v-col class="m-12">
-          <v-file-input type="file" v-model="pictureFile"
-            >画像を登録</v-file-input
-          >
+          <v-file-input
+            type="file"
+            v-model="pictureFile"
+            label="画像を登録"
+          ></v-file-input>
         </v-col>
       </v-col>
       <v-col cols="12" xs="12" sm="6">
@@ -17,6 +18,8 @@
           label="船名"
           v-model="updateName"
           :value="updateName"
+          text-align:right
+          style="text-align: right"
         ></v-text-field>
         <v-text-field
           cols="12"
@@ -24,7 +27,9 @@
           label="定員"
           v-model="updateBoatCapacity"
           :value="updateBoatCapacity"
-          >人
+          suffix="人"
+          style="textalign: right"
+        >
         </v-text-field>
         <v-text-field
           cols="12"
@@ -32,7 +37,8 @@
           label="全長"
           v-model="updateLength"
           :value="updateLength"
-          >m
+          suffix="ｍ"
+        >
         </v-text-field>
         <v-text-field
           cols="12"
@@ -40,7 +46,8 @@
           label="全幅"
           v-model="updateWidth"
           :value="updateWidth"
-          >m
+          suffix="ｍ"
+        >
         </v-text-field>
         <v-text-field
           cols="12"
@@ -48,7 +55,8 @@
           label="レンタル料金"
           v-model="updateRentalFee"
           :value="updateRentalFee"
-          >円
+          suffix="円"
+        >
         </v-text-field>
         <v-text-field
           cols="12"
@@ -56,80 +64,57 @@
           label="船長料金"
           v-model="updateCaptainFee"
           :value="updateCaptainFee"
-          >円
+          suffix="円"
+        >
         </v-text-field>
-
         <v-row>
-          <v-col cols="12" xs="6">
-            <v-text-field
-              label="出航時刻"
-              v-model="updateDepartureTime"
-              :value="updateDepartureTime"
+          <v-col cols="6">
+            <v-menu
+              ref="menu"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
             >
-            </v-text-field>
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  v-model="updateDepartureTime"
+                  label="出航時刻"
+                  prepend-icon="mdi-clock-time-four-outline"
+                  readonly
+                  v-bind="attrs"
+                  v-on="on"
+                ></v-text-field>
+              </template>
+              <v-time-picker
+                v-model="updateDepartureTime"
+                @click:minute="$refs.menu.save(updateDepartureTime)"
+              ></v-time-picker>
+            </v-menu>
           </v-col>
-          <v-col cols="12" xs="6">
-            <v-text-field
-              label="寄港時刻"
-              v-model="updateArrivalTime"
-              :value="updateArrivalTime"
+          <v-col cols="6">
+            <v-menu
+              ref="menu"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
             >
-            </v-text-field>
-
-            <!-- <v-row>
-                  <v-col cols="12" sx="6">
-                    <v-menu
-                      ref="menu"
-                      :close-on-content-click="false"
-                      :nudge-right="40"
-                      :return-value.sync="updateDepartureTime"
-                      transition="scale-transition"
-                      offset-y
-                    >
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-text-field
-                          v-model="updateDepartureTime"
-                          label="出航時刻"
-                          prepend-icon="mdi-clock-time-four-outline"
-                          readonly
-                          v-bind="attrs"
-                          v-on="on"
-                        ></v-text-field>
-                      </template>
-                      <v-time-picker
-                        v-model="updateDepartureTime"
-                        full-width
-                        @click:minute="$refs.menu.save(updateDepartureTime)"
-                      ></v-time-picker>
-                    </v-menu>
-                  </v-col>
-                  <v-col cols="12" sx="6">
-                    <v-menu
-                      ref="menu"
-                      :close-on-content-click="false"
-                      :nudge-right="40"
-                      :return-value.sync="updateArrivalTime"
-                      transition="scale-transition"
-                      offset-y
-                    >
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-text-field
-                          v-model="updateArrivalTime"
-                          label="寄港時刻"
-                          prepend-icon="mdi-clock-time-four-outline"
-                          readonly
-                          v-bind="attrs"
-                          v-on="on"
-                        ></v-text-field>
-                      </template>
-                      <v-time-picker
-                        v-model="updateArrivalTime"
-                        full-width
-                        @click:minute="$refs.menu.save(updateArrivalTime)"
-                      ></v-time-picker>
-                    </v-menu>
-                  </v-col>
-                </v-row> -->
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  v-model="updateArrivalTime"
+                  label="寄港時刻"
+                  prepend-icon="mdi-clock-time-four-outline"
+                  readonly
+                  v-bind="attrs"
+                  v-on="on"
+                ></v-text-field>
+              </template>
+              <v-time-picker
+                v-model="updateArrivalTime"
+                @click:minute="$refs.menu.save(updateArrivalTime)"
+              ></v-time-picker>
+            </v-menu>
           </v-col>
         </v-row>
       </v-col>
@@ -162,6 +147,27 @@
       <v-btn @click="update">公開</v-btn>
       <v-btn @click="draft">下書きとして保存</v-btn>
     </v-row>
+
+    <!-- snackbar update-->
+    <v-snackbar v-model="updateSnack" :timeout="timeout">
+      {{ updateSnackText }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn color="blue" text v-bind="attrs" @click="updateSnack = false">
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
+    <!-- snackbar draft-->
+    <v-snackbar v-model="draftSnack" :timeout="timeout">
+      {{ draftSnackText }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn color="blue" text v-bind="attrs" @click="draftSnack = false">
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-container>
 
   <!-- カレンダー -->
@@ -218,6 +224,12 @@ export default {
       //picture
       pictureUrl: "",
       pictureFile: null,
+      //snackbar
+      timeout: 1500,
+      updateSnack: false,
+      updateSnackText: "更新しました",
+      draftSnack: false,
+      draftSnackText: "下書き保存しました",
     };
   },
 
@@ -261,28 +273,6 @@ export default {
   },
 
   methods: {
-    changeCapacity(e) {
-      this.updateBoatCapacity = e.target.value;
-    },
-    changeLength(e) {
-      this.updateLength = e.target.value;
-    },
-    changeWidth(e) {
-      this.updateWidth = e.target.value;
-    },
-    changeCaptainFee(e) {
-      this.updateCaptainFee = e.target.value;
-    },
-    changeRentalFee(e) {
-      this.updateRentalFee = e.target.value;
-    },
-    changeDepartureTime(e) {
-      this.updateDepartureTime = e.target.value;
-    },
-    changeArrivalTime(e) {
-      this.updateArrivalTime = e.target.value;
-    },
-
     //when update or draft button is clicked
     async updateImage() {
       let imageUrl = "";
@@ -333,6 +323,7 @@ export default {
           }
         );
         console.log("register:情報更新成功");
+        this.updateSnack = true;
       } catch (error) {
         console.log("register:情報更新失敗:" + error);
       }
@@ -365,6 +356,7 @@ export default {
           pictureId: String(this.pictureUrl),
         });
         console.log("register:情報の下書き成功");
+        this.draftSnack = true;
       } catch (error) {
         console.log("register:情報の下書き成功失敗:" + error);
       }

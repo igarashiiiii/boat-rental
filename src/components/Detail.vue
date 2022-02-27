@@ -2,8 +2,10 @@
   <div id="Detail">
     <v-container v-for="(i, index) in items" :key="index">
       <v-col>
-        <v-card>
-          <v-card-title color="light-blue lighten-5">{{ i.boatName }}</v-card-title>
+        <v-card elevation="10">
+          <v-card-title color="blue-grey lighten-5">{{
+            i.boatName
+          }}</v-card-title>
           <v-row>
             <v-col cols="12" xs="12" sm="6">
               <v-img max-height="350" :src="pictureUrl"></v-img>
@@ -42,14 +44,14 @@
         </v-card>
       </v-col>
       <v-col>
-        <v-card cols="12" xs="12">
-          <v-card-title>・集合場所</v-card-title>
+        <v-card cols="12" xs="12" elevation="10">
+          <p class="ml-4 py-4">・集合場所</p>
           <v-card-text>{{ i.place }}</v-card-text>
         </v-card>
       </v-col>
       <v-col>
-        <v-card cols="12" xs="12">
-          <v-card-title>・追記事項</v-card-title>
+        <v-card cols="12" xs="12" elevation="10">
+          <p class="ml-4 py-4">・追記事項</p>
           <v-card-text>{{ i.caution }}</v-card-text>
         </v-card>
       </v-col>
@@ -57,8 +59,10 @@
     <v-spacer></v-spacer>
     <v-container>
       <v-row class="mx-10 py-12">
-        <v-btn class="mx-auto">
-          <a :href="'mailto:' + userEmail">メールで申し込みをする</a>
+        <v-btn class="mx-auto" color="light-blue darken-4">
+          <a :href="'mailto:' + userEmail" class="white--text"
+            >メールで申し込みをする</a
+          >
         </v-btn>
       </v-row>
     </v-container>
