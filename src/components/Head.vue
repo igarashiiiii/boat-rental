@@ -1,16 +1,21 @@
 <template>
   <v-container id="Head">
-       <!-- ヘッダー -->
+    <!-- ヘッダー -->
     <v-app-bar clipped-left absolute app color="light-blue darken-4">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title >
+      <v-toolbar-title>
         <router-link to="/" class="white--text">V-Pier</router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn class="pa-2 ml-auto " outlined color="white"
-        ><router-link to="/register" class="white--text">ボート登録</router-link></v-btn>
-      <v-btn v-show="!isLoggedIn" @click="login" class="pa-2 ml-auto"
-       outlined color="white" ><router-link to="/auth" class="white--text">ログイン</router-link></v-btn
+      <v-btn class="pa-2 ml-auto" outlined color="white"
+        ><router-link to="/register" class="white--text"
+          >ボート登録</router-link
+        ></v-btn
+      >
+      <v-btn v-show="!isLoggedIn" class="pa-2 ml-auto" outlined color="white"
+        ><router-link to="/auth" class="white--text"
+          >ログイン</router-link
+        ></v-btn
       >
     </v-app-bar>
     <!-- ナビゲーションバー -->
@@ -22,8 +27,8 @@
     >
       <v-container>
         <v-list-item>
-          <v-list-item-content >
-            <v-list-item-title class="title white--text" >
+          <v-list-item-content>
+            <v-list-item-title class="title white--text">
               各種設定
             </v-list-item-title>
           </v-list-item-content>
@@ -34,7 +39,8 @@
           <v-list-item-title>
             <v-col class="ml-2">
               <a
-                :href="'mailto:igahaya5@gmail.com?subject=boat-rentalの問い合わせ'" class="white--text"
+                :href="'mailto:igahaya5@gmail.com?subject=boat-rentalの問い合わせ'"
+                class="white--text"
                 >管理者へ問い合わせ</a
               >
             </v-col>
@@ -43,9 +49,7 @@
         <v-divider></v-divider>
         <v-list-item-content v-show="isLoggedIn" dense nav>
           <v-list-item-title class="white--text">
-            <button  @click="signOut" class="ml-5 pt-4" >
-              ログアウト
-            </button>
+            <button @click="signOut" class="ml-5 pt-4">ログアウト</button>
           </v-list-item-title>
         </v-list-item-content>
         <v-divider></v-divider>
@@ -86,16 +90,10 @@ export default {
     ...mapGetters(["isLoggedIn"]),
   },
   methods: {
-    login() {
-      this.$router.push("auth");
-    },
     signOut() {
       const auth = getAuth();
       this.$store.dispatch("userLogout", auth);
     },
-    // register(){
-    //   this.$router.push("register");
-    // }
   },
 };
 </script>
