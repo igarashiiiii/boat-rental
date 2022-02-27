@@ -145,7 +145,7 @@ export default new Vuex.Store({
                     place: "",
                     caution: "",
                     boatId: id,
-                    pictureId: "https://firebasestorage.googleapis.com/v0/b/boat-rental-dfd96.appspot.com/o/pictures%2FsuLVgL4RFzYEVYg0Re6kfsxpiz83.jpg?alt=media&token=0aa423d6-4ae2-4c38-81d1-bbc42485c969"
+                    pictureId: "https://firebasestorage.googleapis.com/v0/b/boat-rental-dfd96.appspot.com/o/pictures%2FsbCtPv8TbzY0RfRhMpOXuZF9ppG3.jpg?alt=media&token=93c21b95-6fea-4d94-aa84-6df612e8e92e"
                 });
                 console.log("vuex:createBoatId:boatId作成:" + id);
                 commit("createBoatId", id)

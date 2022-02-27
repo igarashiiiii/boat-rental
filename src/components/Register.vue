@@ -273,6 +273,7 @@ export default {
   },
 
   methods: {
+
     //when update or draft button is clicked
     async updateImage() {
       let imageUrl = "";

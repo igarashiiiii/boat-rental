@@ -1,11 +1,13 @@
 <template>
-  <v-container id="auth" cols="12" sm="8" md="8" pa-10>
+  <v-container id="auth" class="py-12">
     <v-spacer pt-4></v-spacer>
     <div v-show="!isLoggedIn">
-      <v-row align="center">
-        <v-col>
-          <v-card class="mx-auto justify-center" max-width="344" >
-            <v-card-title class="light-blue lighten-2"> ログイン </v-card-title>
+      <v-row>
+        <v-col class="mx-auto">
+          <v-card max-width="344" class="mx-auto">
+            <v-card-title class="light-blue darken-4 white--text">
+              ログイン
+            </v-card-title>
             <div class="pa-5">
               <v-text-field
                 label="メールアドレス"
@@ -20,18 +22,78 @@
                 v-model="password"
               ></v-text-field>
               <v-row dense>
-                <v-btn @click="signUp" color="light-blue lighten-4"> サインアップ </v-btn>
-                <v-spacer ></v-spacer>
-                <v-btn @click="signIn" color="light-blue lighten-4"> サインイン </v-btn>
+                <v-btn outlined @click="signUp" color="light-blue darken-4">
+                  サインアップ
+                </v-btn>
+                <v-spacer></v-spacer>
+                <v-btn outlined @click="signIn" color="light-blue darken-4">
+                  サインイン
+                </v-btn>
               </v-row>
             </div>
           </v-card>
         </v-col>
       </v-row>
     </div>
-    <div v-show="isLoggedIn">
-      ログイン完了しました
-    </div>
+    <v-row>
+      <div v-show="isLoggedIn" class="mx-auto">ログイン完了しました</div>
+    </v-row>
+    <!-- snackbar Signin Success-->
+    <v-snackbar v-model="snackbarSigninSuccess" :timeout="timeout">
+      {{ snackbarSigninSuccessText }}
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          color="blue"
+          text
+          v-bind="attrs"
+          @click="snackbarSigninSuccess = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
+    <!-- snackbar Signin fault-->
+    <v-snackbar v-model="snackbarSigninfault">
+      {{ snackbarSigninfaultText }}
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          color="blue"
+          text
+          v-bind="attrs"
+          @click="snackbarSigninfault = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
+    <!-- snackbar Signup Success-->
+    <v-snackbar v-model="snackbarSignupSuccess" :timeout="timeout">
+      {{ snackbarSignupSuccessText }}
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          color="blue"
+          text
+          v-bind="attrs"
+          @click="snackbarSignupSuccess = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
+    <!-- snackbar Signup fault-->
+    <v-snackbar v-model="snackbarSignupfault">
+      {{ snackbarSignupfaultText }}
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          color="blue"
+          text
+          v-bind="attrs"
+          @click="snackbarSignupfault = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-container>
 </template>
 <script>
@@ -52,12 +114,9 @@ import { initializeApp } from "firebase/app";
 
 //authentification
 const auth = getAuth();
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 
-import {
-  getAuth,
-  signOut,
-} from "firebase/auth";
+import { getAuth, signOut } from "firebase/auth";
 
 export default {
   name: "Auth",
@@ -68,18 +127,26 @@ export default {
       state: "",
       boatId: "",
       everyBoatId: [],
+      //snackbar
+      timeout: 1500,
+      snackbarSigninSuccess: false,
+      snackbarSigninSuccessText: "SignIn completed",
+      snackbarSigninfault: false,
+      snackbarSigninfaultText: "SignIn rejected",
+      snackbarSignupSuccess: false,
+      snackbarSignupSuccessText: "SignUp completed",
+      snackbarSignupfault: false,
+      snackbarSignupfaultText: "SignUp rejected",
     };
   },
-  computed:{
-    ...mapGetters([
-      'isLoggedIn'
-    ])
+  computed: {
+    ...mapGetters(["isLoggedIn"]),
   },
   created() {
     //ログイン状態を確認
     this.$store.dispatch("userConfirm", auth);
-    this.state = this.$store.getters.userState
-    console.log("Auth:created:"+this.state)
+    this.state = this.$store.getters.userState;
+    console.log("Auth:created:" + this.state);
   },
 
   methods: {
@@ -93,7 +160,12 @@ export default {
       });
       //ボート情報の登録(boatId = userId)
       this.$store.dispatch("createBoatId", this.$store.getters.userId);
-      this.state = this.$store.getters.userState
+      this.state = this.$store.getters.userState;
+      if (this.$store.getters.userState) {
+        this.snackbarSignupSuccess = true;
+      } else {
+        this.snackbarSignupfault = true;
+      }
     },
     //signIn
     signIn() {
@@ -102,7 +174,12 @@ export default {
         emailInfo: this.email,
         passwordInfo: this.password,
       });
-      this.state = this.$store.getters.userState
+      this.state = this.$store.getters.userState;
+      if (this.$store.getters.userState) {
+        this.snackbarSigninSuccess = true;
+      } else {
+        this.snackbarSigninfault = true;
+      }
     },
     //signOut
     signOut() {

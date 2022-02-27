@@ -3,7 +3,7 @@
     <v-container v-for="(i, index) in items" :key="index">
       <v-col>
         <v-card elevation="10">
-          <v-card-title color="blue-grey lighten-5">{{
+          <v-card-title class="light-blue darken-4 white--text">{{
             i.boatName
           }}</v-card-title>
           <v-row>
@@ -11,7 +11,7 @@
               <v-img max-height="350" :src="pictureUrl"></v-img>
             </v-col>
             <v-col cols="12" xs="12" sm="6">
-              <v-simple-table>
+              <v-simple-table class="mt-5">
                 <tbody>
                   <tr>
                     <td>レンタル料金：</td>
@@ -45,13 +45,13 @@
       </v-col>
       <v-col>
         <v-card cols="12" xs="12" elevation="10">
-          <p class="ml-4 py-4">・集合場所</p>
+          <p class="ml-4 pt-4">集合場所</p>
           <v-card-text>{{ i.place }}</v-card-text>
         </v-card>
       </v-col>
       <v-col>
         <v-card cols="12" xs="12" elevation="10">
-          <p class="ml-4 py-4">・追記事項</p>
+          <p class="ml-4 pt-4">追記事項</p>
           <v-card-text>{{ i.caution }}</v-card-text>
         </v-card>
       </v-col>

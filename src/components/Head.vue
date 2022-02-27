@@ -1,5 +1,18 @@
 <template>
-  <div>
+  <v-container id="Head">
+       <!-- ヘッダー -->
+    <v-app-bar clipped-left absolute app color="light-blue darken-4">
+      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-toolbar-title >
+        <router-link to="/" class="white--text">V-Pier</router-link>
+      </v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn class="pa-2 ml-auto" outlined color="white" @click="register"
+        >ボート登録</v-btn>
+      <v-btn v-show="!isLoggedIn" @click="login" class="pa-2 ml-auto"
+       outlined color="white" >ログイン</v-btn
+      >
+    </v-app-bar>
     <!-- ナビゲーションバー -->
     <v-navigation-drawer
       app
@@ -28,9 +41,9 @@
           </v-list-item-title>
         </v-list-item-content>
         <v-divider></v-divider>
-        <v-list-item-content dense nav>
+        <v-list-item-content v-show="isLoggedIn" dense nav>
           <v-list-item-title class="white--text">
-            <button v-show="isLoggedIn" @click="signOut" class="ml-5 pt-4" >
+            <button  @click="signOut" class="ml-5 pt-4" >
               ログアウト
             </button>
           </v-list-item-title>
@@ -41,22 +54,7 @@
         </v-list-item-content> -->
       </v-container>
     </v-navigation-drawer>
-
-    <!-- ヘッダー -->
-    <v-app-bar clipped-left absolute app color="light-blue darken-4">
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title >
-        <router-link to="/" class="white--text">V-Pier</router-link>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn class="pa-2 ml-auto" outlined color="white"
-        ><router-link to="/register" class="white--text">ボート登録</router-link></v-btn
-      >
-      <v-btn v-show="!isLoggedIn" @click="push" class="pa-2 ml-auto"
-        >ログイン</v-btn
-      >
-    </v-app-bar>
-  </div>
+  </v-container>
 </template>
 <script>
 import { getAuth } from "firebase/auth";
@@ -88,13 +86,16 @@ export default {
     ...mapGetters(["isLoggedIn"]),
   },
   methods: {
-    push() {
+    login() {
       this.$router.push("auth");
     },
     signOut() {
       const auth = getAuth();
       this.$store.dispatch("userLogout", auth);
     },
+    register(){
+      this.$router.push("Register");
+    }
   },
 };
 </script>
