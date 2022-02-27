@@ -12,7 +12,8 @@ export default new VueRouter({
   routes: [
     { path: '/', component: Home },
     { path: '/register', component: Register },
+    { path: '/auth', component: Auth },
     { path: '/detail/:id', component: Detail },
-    { path: '/auth', component: Auth }
+    
   ]
 })

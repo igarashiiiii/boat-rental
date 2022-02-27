@@ -178,7 +178,7 @@ export default {
         passwordInfo: this.password,
       });
       this.state = this.$store.getters.userState;
-      if (this.$store.getters.userState) {
+      if (this.state) {
         this.snackbarSigninSuccess = true;
       } else {
         this.snackbarSigninfault = true;
