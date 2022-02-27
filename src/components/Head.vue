@@ -19,13 +19,6 @@
         <v-divider></v-divider>
         <v-list-item-content dense nav>
           <v-list-item-title>
-            <button v-show="isLoggedIn" @click="signOut" class="ml-5">
-              ログアウト
-            </button>
-          </v-list-item-title>
-        </v-list-item-content>
-        <v-list-item-content dense nav>
-          <v-list-item-title>
             <v-col class="ml-2">
               <a
                 :href="'mailto:igahaya5@gmail.com?subject=boat-rentalの問い合わせ'"
@@ -34,6 +27,15 @@
             </v-col>
           </v-list-item-title>
         </v-list-item-content>
+        <v-divider></v-divider>
+        <v-list-item-content dense nav>
+          <v-list-item-title>
+            <button v-show="isLoggedIn" @click="signOut" class="ml-5 pt-4">
+              ログアウト
+            </button>
+          </v-list-item-title>
+        </v-list-item-content>
+        <v-divider></v-divider>
         <!-- <v-list-item-content dense nav>
             <v-list-item-title>予約確認</v-list-item-title>
         </v-list-item-content> -->

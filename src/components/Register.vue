@@ -3,7 +3,7 @@
     <h2>貸出すボートを登録</h2>
     <v-row>
       <v-col cols="12" xs="12" sm="6">
-        <v-img :src="pictureUrl" alt="" id="myimg"></v-img>
+        <v-img :src="pictureUrl" alt="" id="myimg" max-height="350"></v-img>
         <v-col class="m-12">
           <v-file-input type="file" v-model="pictureFile"
             >画像を登録</v-file-input
@@ -11,121 +11,151 @@
         </v-col>
       </v-col>
       <v-col cols="12" xs="12" sm="6">
-        <v-simple-table>
-          <tbody>
-            <tr>
-              <td>船名：</td>
-              <td>
-                <input type="text" @change="changeName" :value="updateName" />
-              </td>
-            </tr>
-            <tr>
-              <td>定員：</td>
-              <td>
-                <input
-                  type="nummber"
-                  @change="changeCapacity"
-                  :value="updateBoatCapacity"
-                />人
-              </td>
-            </tr>
-            <tr>
-              <td>全長：</td>
-              <td>
-                <input
-                  type="text"
-                  @change="changeLength"
-                  :value="updateLength"
-                />m
-              </td>
-            </tr>
-            <tr>
-              <td>全幅：</td>
-              <td>
-                <input
-                  type="text"
-                  @change="changeWidth"
-                  :value="updateWidth"
-                />m
-              </td>
-            </tr>
+        <v-text-field
+          cols="12"
+          xs="12"
+          label="船名"
+          v-model="updateName"
+          :value="updateName"
+        ></v-text-field>
+        <v-text-field
+          cols="12"
+          xs="12"
+          label="定員"
+          v-model="updateBoatCapacity"
+          :value="updateBoatCapacity"
+          >人
+        </v-text-field>
+        <v-text-field
+          cols="12"
+          xs="12"
+          label="全長"
+          v-model="updateLength"
+          :value="updateLength"
+          >m
+        </v-text-field>
+        <v-text-field
+          cols="12"
+          xs="12"
+          label="全幅"
+          v-model="updateWidth"
+          :value="updateWidth"
+          >m
+        </v-text-field>
+        <v-text-field
+          cols="12"
+          xs="12"
+          label="レンタル料金"
+          v-model="updateRentalFee"
+          :value="updateRentalFee"
+          >円
+        </v-text-field>
+        <v-text-field
+          cols="12"
+          xs="12"
+          label="船長料金"
+          v-model="updateCaptainFee"
+          :value="updateCaptainFee"
+          >円
+        </v-text-field>
 
-            <tr>
-              <td>レンタル料金：</td>
-              <td>
-                <input
-                  type="text"
-                  @change="changeRentalFee"
-                  :value="updateRentalFee"
-                />円
-              </td>
-            </tr>
+        <v-row>
+          <v-col cols="12" xs="6">
+            <v-text-field
+              label="出航時刻"
+              v-model="updateDepartureTime"
+              :value="updateDepartureTime"
+            >
+            </v-text-field>
+          </v-col>
+          <v-col cols="12" xs="6">
+            <v-text-field
+              label="寄港時刻"
+              v-model="updateArrivalTime"
+              :value="updateArrivalTime"
+            >
+            </v-text-field>
 
-            <tr>
-              <td>船長料金：</td>
-              <td>
-                <input
-                  type="text"
-                  @change="changeCaptainFee"
-                  :value="updateCaptainFee"
-                />円
-              </td>
-            </tr>
-            <tr>
-              <td>出港時刻：</td>
-              <td>
-                <input
-                  type="time"
-                  @change="changeDepartureTime"
-                  :value="updateDepartureTime"
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>寄港時刻：</td>
-              <td>
-                <input
-                  type="time"
-                  @change="changeArrivalTime"
-                  :value="updateArrivalTime"
-                />
-              </td>
-            </tr>
-          </tbody>
-        </v-simple-table>
+            <!-- <v-row>
+                  <v-col cols="12" sx="6">
+                    <v-menu
+                      ref="menu"
+                      :close-on-content-click="false"
+                      :nudge-right="40"
+                      :return-value.sync="updateDepartureTime"
+                      transition="scale-transition"
+                      offset-y
+                    >
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-text-field
+                          v-model="updateDepartureTime"
+                          label="出航時刻"
+                          prepend-icon="mdi-clock-time-four-outline"
+                          readonly
+                          v-bind="attrs"
+                          v-on="on"
+                        ></v-text-field>
+                      </template>
+                      <v-time-picker
+                        v-model="updateDepartureTime"
+                        full-width
+                        @click:minute="$refs.menu.save(updateDepartureTime)"
+                      ></v-time-picker>
+                    </v-menu>
+                  </v-col>
+                  <v-col cols="12" sx="6">
+                    <v-menu
+                      ref="menu"
+                      :close-on-content-click="false"
+                      :nudge-right="40"
+                      :return-value.sync="updateArrivalTime"
+                      transition="scale-transition"
+                      offset-y
+                    >
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-text-field
+                          v-model="updateArrivalTime"
+                          label="寄港時刻"
+                          prepend-icon="mdi-clock-time-four-outline"
+                          readonly
+                          v-bind="attrs"
+                          v-on="on"
+                        ></v-text-field>
+                      </template>
+                      <v-time-picker
+                        v-model="updateArrivalTime"
+                        full-width
+                        @click:minute="$refs.menu.save(updateArrivalTime)"
+                      ></v-time-picker>
+                    </v-menu>
+                  </v-col>
+                </v-row> -->
+          </v-col>
+        </v-row>
       </v-col>
     </v-row>
     <v-row>
-      <v-col>
-        <v-simple-table>
-          <tbody>
-            <tr>
-              <td class="py-5">
-                <v-textarea
-                  label="集合場所"
-                  auto-grow
-                  outlined
-                  name="input-7-4"
-                  @change="changePlace"
-                  :value="updatePlace"
-                />
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                <v-textarea
-                  label="追記事項"
-                  auto-grow
-                  outlined
-                  name="input-7-4"
-                  @change="changeCaution"
-                  :value="updateCaution"
-                />
-              </td>
-            </tr>
-          </tbody>
-        </v-simple-table>
+      <v-col cols="12" xs="12">
+        <p>
+          <v-textarea
+            label="集合場所"
+            outlined
+            name="input-7-4"
+            v-model="updatePlace"
+            :value="updatePlace"
+          />
+        </p>
+      </v-col>
+      <v-col cols="12" xs="12">
+        <p>
+          <v-textarea
+            label="追記事項"
+            outlined
+            name="input-7-4"
+            v-model="updateCaution"
+            :value="updateCaution"
+          />
+        </p>
       </v-col>
     </v-row>
     <v-row class="py-10" justify="center">
@@ -222,6 +252,7 @@ export default {
       this.updateArrivalTime = this.updateItems[0].arrivalTime;
       this.updatePlace = this.updateItems[0].place;
       this.updateCaution = this.updateItems[0].caution;
+
       console.log("register:created:Boat情報を読み込みました");
     } else {
       this.exist = false;
@@ -230,10 +261,6 @@ export default {
   },
 
   methods: {
-    //changed information
-    changeName(e) {
-      this.updateName = e.target.value;
-    },
     changeCapacity(e) {
       this.updateBoatCapacity = e.target.value;
     },
@@ -254,13 +281,6 @@ export default {
     },
     changeArrivalTime(e) {
       this.updateArrivalTime = e.target.value;
-    },
-    changePlace(e) {
-      this.updatePlace = e.target.internalValue;
-      console.log("changePlace:" + e.target.internalValue);
-    },
-    changeCaution(e) {
-      this.updateCaution = e.target.value;
     },
 
     //when update or draft button is clicked
@@ -349,6 +369,11 @@ export default {
         console.log("register:情報の下書き成功失敗:" + error);
       }
     },
+
+    updateSuccessAlert() {
+      this.successAlert = true;
+    },
+    updateFaultAlert() {},
   },
 };
 </script>

@@ -12,7 +12,7 @@
                     @click="push(i.boatId)"
                     class="mx-auto"
                   >
-                    <v-card max-width="300" color="pink" class="my-2">
+                    <v-card max-width="300" color="pink" class="my-2" elevation="10">
                       <v-img
                         :src="i.pictureId"
                         alt=""
