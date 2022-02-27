@@ -7,10 +7,10 @@
         <router-link to="/" class="white--text">V-Pier</router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn class="pa-2 ml-auto" outlined color="white" @click="register"
-        >ボート登録</v-btn>
+      <v-btn class="pa-2 ml-auto " outlined color="white"
+        ><router-link to="/register" class="white--text">ボート登録</router-link></v-btn>
       <v-btn v-show="!isLoggedIn" @click="login" class="pa-2 ml-auto"
-       outlined color="white" >ログイン</v-btn
+       outlined color="white" ><router-link to="/auth" class="white--text">ログイン</router-link></v-btn
       >
     </v-app-bar>
     <!-- ナビゲーションバー -->
@@ -93,9 +93,9 @@ export default {
       const auth = getAuth();
       this.$store.dispatch("userLogout", auth);
     },
-    register(){
-      this.$router.push("Register");
-    }
+    // register(){
+    //   this.$router.push("register");
+    // }
   },
 };
 </script>
