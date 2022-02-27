@@ -21,6 +21,9 @@
                 type="text"
                 v-model="password"
               ></v-text-field>
+              <p type="text">
+                機能確認用のアドレス、PassWordを初期値で入力しております
+              </p>
               <v-row dense>
                 <v-btn outlined @click="signUp" color="light-blue darken-4">
                   サインアップ
@@ -122,7 +125,7 @@ export default {
   name: "Auth",
   data() {
     return {
-      email: "@gamil.com",
+      email: "5@gamil.com",
       password: "123456789",
       state: "",
       boatId: "",
