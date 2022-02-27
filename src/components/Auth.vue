@@ -171,13 +171,14 @@ export default {
       }
     },
     //signIn
-    signIn() {
-      this.$store.dispatch("userSignin", {
+    async signIn() {
+      await this.$store.dispatch("userSignin", {
         authInfo: auth,
         emailInfo: this.email,
         passwordInfo: this.password,
       });
       this.state = this.$store.getters.userState;
+      console.log("rejectedされる要因を確認"+this.$store.getters.userState)
       if (this.state) {
         this.snackbarSigninSuccess = true;
       } else {
