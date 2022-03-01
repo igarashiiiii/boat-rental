@@ -111,10 +111,16 @@ export default {
   async created() {
     const docRef = doc(db, "boatInformation", this.id);
     const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      //Get Picture
+     if (docSnap.exists()) {
+       this.items = [];
+       this.items.push(docSnap.data());
+    } else {
+      console.log("Not exixt");
+    }
+
+          //Get Picture
       await getDownloadURL(
-        ref(storage, "pictures/" + String(this.$store.getters.boatId) + ".jpg")
+        ref(storage, "pictures/" + this.items[0].userId + ".jpg")
       )
         .then((url) => {
           console.log("Register:created:画像を読み込みました:" + url);
@@ -122,19 +128,8 @@ export default {
         })
         .catch((error) => {
           console.log("Register:created:画像が読み込めません:" + error);
-          console.log("Register:created:画像が読み込めません:" + error);
+          console.log("■■" + this.items[0].userId);
         });
-      this.exist = false;
-      this.items = [];
-      this.items.push(docSnap.data());
-      (this.name = this.items.boatName),
-        (this.number = this.items.capacity),
-        (this.length = this.items.length),
-        (this.width = this.items.width);
-    } else {
-      this.exist = true;
-      console.log("Not exixt");
-    }
   },
 };
 </script>
