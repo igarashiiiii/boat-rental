@@ -1,5 +1,5 @@
 <template>
-  <v-container id="Head">
+  <v-container id="Head" class="mb-10 ">
     <!-- ヘッダー -->
     <v-app-bar clipped-left absolute app color="light-blue darken-4">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>

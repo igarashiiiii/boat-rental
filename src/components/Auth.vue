@@ -38,9 +38,16 @@
         </v-col>
       </v-row>
     </div>
-    <v-row>
-      <div v-show="isLoggedIn" class="mx-auto">ログイン完了しました</div>
-    </v-row>
+    <v-container>
+      <v-row v-show="isLoggedIn" class="mx-auto" justify="center">
+        <p>ログイン完了しました</p>
+      </v-row>
+      <v-row v-show="isLoggedIn" class="mx-auto" justify="center">
+        <v-btn @click="goTop" class="light-blue darken-4 white--text"
+          >TOPへ</v-btn
+        >
+      </v-row>
+    </v-container>
     <!-- snackbar Signin Success-->
     <v-snackbar v-model="snackbarSigninSuccess" :timeout="timeout">
       {{ snackbarSigninSuccessText }}
@@ -178,7 +185,7 @@ export default {
         passwordInfo: this.password,
       });
       this.state = this.$store.getters.userState;
-      console.log("rejectedされる要因を確認"+this.$store.getters.userState)
+      console.log("rejectedされる要因を確認" + this.$store.getters.userState);
       if (this.state) {
         this.snackbarSigninSuccess = true;
       } else {
@@ -204,6 +211,9 @@ export default {
       } else {
         this.boatId = String(tmpId);
       }
+    },
+    goTop() {
+      this.$router.replace({ name: "dashboard" });
     },
   },
 };
